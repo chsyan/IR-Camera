@@ -4,7 +4,7 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-msp430_21.6.0.LTS
+CG_TOOL_ROOT := C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := 
@@ -194,34 +194,34 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-I2C\ to\ USB.out \
+IR\ Camera.out \
 
 EXE_OUTPUTS__QUOTED += \
-"I2C to USB.out" \
+"IR Camera.out" \
 
 BIN_OUTPUTS += \
-I2C\ to\ USB.txt \
+IR\ Camera.txt \
 
 BIN_OUTPUTS__QUOTED += \
-"I2C to USB.txt" \
+"IR Camera.txt" \
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(LD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "I2C to USB.out" secondary-outputs
+	@$(MAKE) --no-print-directory -Onone "IR Camera.out" secondary-outputs
 
 # Tool invocations
-I2C\ to\ USB.out: $(OBJS) $(CMD_SRCS) $(LD_SRCS) $(GEN_CMDS)
+IR\ Camera.out: $(OBJS) $(CMD_SRCS) $(LD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: MSP430 Linker'
-	"C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-msp430_21.6.0.LTS/bin/cl430" -vmspx --data_model=restricted -Ooff --use_hw_mpy=F5 --advice:power="all" --define=__MSP430F5529__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 -z -m"I2C to USB.map" --heap_size=320 --stack_size=320 --cinit_hold_wdt=on -i"C:/ti/ccs1210/ccs/ccs_base/msp430/include" -i"C:/ti/ccs1210/ccs/ccs_base/msp430/lib/5xx_6xx_FRxx" -i"C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-msp430_21.6.0.LTS/lib" -i"C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-msp430_21.6.0.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="I2C to USB_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "I2C to USB.out" $(ORDERED_OBJS)
+	"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/cl430" -vmspx --data_model=restricted -Ooff --use_hw_mpy=F5 --advice:power="all" --define=__MSP430F5529__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number --silicon_errata=CPU21 --silicon_errata=CPU22 --silicon_errata=CPU23 --silicon_errata=CPU40 -z -m"IR Camera.map" --heap_size=320 --stack_size=320 --cinit_hold_wdt=on -i"C:/ti/ccs1220/ccs/ccs_base/msp430/include" -i"C:/ti/ccs1220/ccs/ccs_base/msp430/lib/5xx_6xx_FRxx" -i"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/lib" -i"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="IR Camera_linkInfo.xml" --use_hw_mpy=F5 --rom_model -o "IR Camera.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
-I2C\ to\ USB.txt: $(EXE_OUTPUTS)
+IR\ Camera.txt: $(EXE_OUTPUTS)
 	@echo 'Building secondary target: "$@"'
 	@echo 'Invoking: MSP430 Hex Utility'
-	"C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-msp430_21.6.0.LTS/bin/hex430" --memwidth=8 --romwidth=8 --diag_wrap=off --ti_txt -o "I2C to USB.txt" $(EXE_OUTPUTS__QUOTED)
+	"C:/ti/ccs1220/ccs/tools/compiler/ti-cgt-msp430_21.6.1.LTS/bin/hex430" --memwidth=8 --romwidth=8 --diag_wrap=off --ti_txt -o "IR Camera.txt" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building secondary target: "$@"'
 	@echo ' '
 

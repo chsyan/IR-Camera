@@ -22,7 +22,7 @@ import numpy as np
 #5 = 16Hz
 #6 = 32Hz
 #7 = 64Hz
-sensor = MLX90640("COM5", baud=115200, framerate=3)#Actual com port name will depend on system
+sensor = MLX90640(port="COM5", baud=115200, framerate=3)#Actual com port name will depend on system
 
 fig, ax = plt.subplots()
 plt.inferno()

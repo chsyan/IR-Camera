@@ -3,11 +3,11 @@
 #For more details on operation of MLX90640 and calculating temperatures, refer to datasheet
 #UBC PHAS E-lab, Nov 2022
 
-import math, serial, struct
+import math, serial, struct, time
 
 class MLX90640:
     
-    def __init__(self, port='COM5', baud=9600, address=0x33, framerate=3): #default COM5, 9600 baud, I2C address 0x33
+    def __init__(self, port='COM5', baud=9600, address=0x33, framerate=3, pattern=1): #default COM5, 9600 baud, I2C address 0x33
         self.addr = address        
         self.bus = serial.Serial(port, baud, timeout = 4, write_timeout = 4)  # open serial port
         while(self.bus.inWaiting() > 0): #Make sure serial port receive buffer is empty
@@ -17,7 +17,8 @@ class MLX90640:
         self.ROM = self.getROM()
         print("Complete, downloading RAM...\n")
         self.updateRAM()
-        self.setFramerate(framerate) #MLX Framerate values 0-7 are 0.5-64Hz
+        self.setControlReg1(rate=framerate, pattern=0)
+        #self.setFramerate(framerate) #MLX Framerate values 0-7 are 0.5-64Hz
         self.gain = self.getGain() #Restore GAIN coefficient
         
         self.VDD0 = 3.3 #Calculate VDD
@@ -37,10 +38,25 @@ class MLX90640:
         self.alphaCorrR2 = 1
         self.alphaCorrR3 = 1 + self.KsTo2*(self.CT3-0)
         self.alphaCorrR4 = self.alphaCorrR3*(1+self.KsTo3*(self.CT4-self.CT3))
-            
+        
+                    
     def close(self):
         self.bus.close()
-
+        
+    def getControlReg1(self):
+        return self.getRegf(0x800D)
+    
+    def setControlReg1(self, rate=2, pattern=1):
+        # MLX Framerate values 0-7 are 0.5-64Hz
+        # Reading pattern
+        # 1 (default): Chess pattern
+        # 0: Interleaved pattern
+        value = (rate & 0x07) << 7
+        value |= (pattern & 0x1) << 12
+        controlReg1 = self.getRegf(0x800D)
+        value |= (controlReg1 & 0xEC7F)
+        self.setReg(0x800D,value) 
+        
     def setFramerate(self, rate):
         #MLX Framerate values 0-7 are 0.5-64Hz
         value = (rate & 0x07)<<7
@@ -49,7 +65,6 @@ class MLX90640:
         self.setReg(0x800D,value)        
 
     def getRegs(self,reg,num): #Reading multiple registers 
-        
         #construct the read command to send to MSP430
         packet = bytearray()
         packet.append(self.addr) #Slave address
@@ -157,7 +172,6 @@ class MLX90640:
         GAIN = self.ROM[0x30]
         if GAIN > 32767:
             GAIN = GAIN - 65536
-
         RAM = self.RAM[0x030A]
         if RAM > 32767:
             RAM = RAM - 65536
